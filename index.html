@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elm Calculator</title>
+</head>
+<body>
+    <div id="elm-app-is-loaded-here"></div>
+    <script src="app.js"></script>
+    <script>
+      var app = Elm.Calculator.init({
+        node: document.getElementById("elm-app-is-loaded-here")
+      });
+    </script>
+</body>
+</html>
