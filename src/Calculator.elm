@@ -211,7 +211,7 @@ initialModel =
 
 view : Model -> Html Msg
 view model =
-    div []
+    div [class "body"]
         [ Html.node "link"
             [ Html.Attributes.rel "stylesheet"
             , Html.Attributes.href "../styles.css"

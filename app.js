@@ -5509,7 +5509,10 @@ var $author$project$Calculator$renderKeyboard = function (data) {
 var $author$project$Calculator$view = function (model) {
 	return A2(
 		$elm$html$Html$div,
-		_List_Nil,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('body')
+			]),
 		_List_fromArray(
 			[
 				A3(
