@@ -212,13 +212,20 @@ initialModel =
 view : Model -> Html Msg
 view model =
     div []
-        [ h1
+        [ Html.node "link"
+            [ Html.Attributes.rel "stylesheet"
+            , Html.Attributes.href "../styles.css"
+            ]
             []
-            [ text model.title ]
-        , div
-            [ class "container" ]
-            [ div [ class "result" ] [ p [] [ text model.display ] ]
-            , div [ class "keyboard" ] (renderKeyboard model.keyboard)
+        , div []
+            [ h1
+                []
+                [ text model.title ]
+            , div
+                [ class "container" ]
+                [ div [ class "result" ] [ p [] [ text model.display ] ]
+                , div [ class "keyboard" ] (renderKeyboard model.keyboard)
+                ]
             ]
         ]
 
