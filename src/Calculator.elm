@@ -214,7 +214,7 @@ view model =
     div [class "body"]
         [ Html.node "link"
             [ Html.Attributes.rel "stylesheet"
-            , Html.Attributes.href "src/styles.css"
+            , Html.Attributes.href "../styles.css"
             ]
             []
         , div []
