@@ -32,6 +32,8 @@ type Msg
     | Operator OpType
     | Equal
     | ClearAll
+    | ChangeSign
+    | ClearLast
 
 
 type OpType
@@ -39,9 +41,7 @@ type OpType
     | Minus
     | Times
     | Divide
-    | ClearLast
     | Comma
-    | ChangeSign
 
 
 update : Msg -> Model -> Model
@@ -103,6 +103,30 @@ update msg model =
         ClearAll ->
             initialModel
 
+        ChangeSign ->
+            case model.currentOperand of
+                First ->
+                    let
+                        newVal =
+                            model.firstOperand * -1
+                    in
+                    { model | firstOperand = newVal, display = String.fromFloat newVal }
+
+                Second ->
+                    let
+                        newVal = model.secondOperand * -1
+                    in
+                        { model | secondOperand = newVal, display = String.fromFloat newVal }
+
+        ClearLast ->
+            case model.currentOperand of
+                First ->
+                    { model | firstOperand = 0, display = String.fromFloat 0 }
+
+                Second ->
+                    { model | secondOperand = 0, display = String.fromFloat 0 }
+
+
 
 evaluate op =
     case op of
@@ -123,16 +147,6 @@ evaluate op =
 
         "x" ->
             (*)
-
-        "AC" ->
-            (+)
-
-        "MC" ->
-            (+)
-
-        "+/-" ->
-            (+)
-
         _ ->
             (+)
 
@@ -152,12 +166,6 @@ handleDisplayOperator op =
         Times ->
             "x"
 
-        ClearLast ->
-            "MC"
-
-        ChangeSign ->
-            "+/-"
-
         Comma ->
             "."
 
@@ -165,8 +173,8 @@ handleDisplayOperator op =
 keys : List Button
 keys =
     [ { val = "AC", cls = "button action-button", action = ClearAll }
-    , { val = "MC", cls = "button action-button", action = Operator ClearLast }
-    , { val = "+/-", cls = "button action-button", action = Operator ChangeSign }
+    , { val = "MC", cls = "button action-button", action = ClearLast }
+    , { val = "+/-", cls = "button action-button", action = ChangeSign }
     , { val = "x", cls = "button calc-action-button", action = Operator Times }
     , { val = "7", cls = "button num-button", action = InputNumber 7 }
     , { val = "8", cls = "button num-button", action = InputNumber 8 }
@@ -211,7 +219,7 @@ initialModel =
 
 view : Model -> Html Msg
 view model =
-    div [class "body"]
+    div [ class "body" ]
         [ Html.node "link"
             [ Html.Attributes.rel "stylesheet"
             , Html.Attributes.href "../styles.css"

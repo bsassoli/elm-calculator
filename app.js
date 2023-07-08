@@ -5052,16 +5052,8 @@ var $author$project$Calculator$Times = {$: 'Times'};
 var $author$project$Calculator$keys = _List_fromArray(
 	[
 		{action: $author$project$Calculator$ClearAll, cls: 'button action-button', val: 'AC'},
-		{
-		action: $author$project$Calculator$Operator($author$project$Calculator$ClearLast),
-		cls: 'button action-button',
-		val: 'MC'
-	},
-		{
-		action: $author$project$Calculator$Operator($author$project$Calculator$ChangeSign),
-		cls: 'button action-button',
-		val: '+/-'
-	},
+		{action: $author$project$Calculator$ClearLast, cls: 'button action-button', val: 'MC'},
+		{action: $author$project$Calculator$ChangeSign, cls: 'button action-button', val: '+/-'},
 		{
 		action: $author$project$Calculator$Operator($author$project$Calculator$Times),
 		cls: 'button calc-action-button',
@@ -10695,12 +10687,6 @@ var $author$project$Calculator$evaluate = function (op) {
 			return $elm$core$Basics$fdiv;
 		case 'x':
 			return $elm$core$Basics$mul;
-		case 'AC':
-			return $elm$core$Basics$add;
-		case 'MC':
-			return $elm$core$Basics$add;
-		case '+/-':
-			return $elm$core$Basics$add;
 		default:
 			return $elm$core$Basics$add;
 	}
@@ -10715,10 +10701,6 @@ var $author$project$Calculator$handleDisplayOperator = function (op) {
 			return '/';
 		case 'Times':
 			return 'x';
-		case 'ClearLast':
-			return 'MC';
-		case 'ChangeSign':
-			return '+/-';
 		default:
 			return '.';
 	}
@@ -10826,8 +10808,44 @@ var $author$project$Calculator$update = F2(
 						result: result,
 						secondOperand: 0
 					});
-			default:
+			case 'ClearAll':
 				return $author$project$Calculator$initialModel;
+			case 'ChangeSign':
+				var _v4 = model.currentOperand;
+				if (_v4.$ === 'First') {
+					var newVal = model.firstOperand * (-1);
+					return _Utils_update(
+						model,
+						{
+							display: $elm$core$String$fromFloat(newVal),
+							firstOperand: newVal
+						});
+				} else {
+					var newVal = model.secondOperand * (-1);
+					return _Utils_update(
+						model,
+						{
+							display: $elm$core$String$fromFloat(newVal),
+							secondOperand: newVal
+						});
+				}
+			default:
+				var _v5 = model.currentOperand;
+				if (_v5.$ === 'First') {
+					return _Utils_update(
+						model,
+						{
+							display: $elm$core$String$fromFloat(0),
+							firstOperand: 0
+						});
+				} else {
+					return _Utils_update(
+						model,
+						{
+							display: $elm$core$String$fromFloat(0),
+							secondOperand: 0
+						});
+				}
 		}
 	});
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
@@ -10916,7 +10934,7 @@ var $author$project$Calculator$view = function (model) {
 var $author$project$Calculator$main = $elm$browser$Browser$sandbox(
 	{init: $author$project$Calculator$initialModel, update: $author$project$Calculator$update, view: $author$project$Calculator$view});
 _Platform_export({'Calculator':{'init':$author$project$Calculator$main(
-	$elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.1"},"types":{"message":"Calculator.Msg","aliases":{},"unions":{"Calculator.Msg":{"args":[],"tags":{"InputNumber":["Basics.Float"],"Operator":["Calculator.OpType"],"Equal":[],"ClearAll":[]}},"Basics.Float":{"args":[],"tags":{"Float":[]}},"Calculator.OpType":{"args":[],"tags":{"Plus":[],"Minus":[],"Times":[],"Divide":[],"ClearLast":[],"Comma":[],"ChangeSign":[]}}}}})}});
+	$elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.1"},"types":{"message":"Calculator.Msg","aliases":{},"unions":{"Calculator.Msg":{"args":[],"tags":{"InputNumber":["Basics.Float"],"Operator":["Calculator.OpType"],"Equal":[],"ClearAll":[],"ChangeSign":[],"ClearLast":[]}},"Basics.Float":{"args":[],"tags":{"Float":[]}},"Calculator.OpType":{"args":[],"tags":{"Plus":[],"Minus":[],"Times":[],"Divide":[],"Comma":[]}}}}})}});
 
 //////////////////// HMR BEGIN ////////////////////
 
