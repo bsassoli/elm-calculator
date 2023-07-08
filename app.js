@@ -5432,10 +5432,7 @@ var $author$project$Calculator$update = F2(
 						operator: $author$project$Calculator$handleDisplayOperator(type_)
 					});
 			case 'Equal':
-				var result = A2(
-					$author$project$Calculator$evaluate(model.operator),
-					model.firstOperand,
-					model.secondOperand);
+				var result = A3($author$project$Calculator$evaluate, model.operator, model.firstOperand, model.secondOperand);
 				return _Utils_update(
 					model,
 					{

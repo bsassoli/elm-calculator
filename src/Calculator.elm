@@ -18,7 +18,7 @@ type alias Model =
     , display : String
     , keyboard : List Button
     , currentOperand : CurrentOperand
-    , result: Float
+    , result : Float
     }
 
 
@@ -59,6 +59,7 @@ update msg model =
                     case model.currentOperand of
                         First ->
                             Maybe.withDefault 0 (String.toFloat (String.fromFloat model.firstOperand ++ String.fromFloat num))
+
                         -- refactor using map2
                         Second ->
                             model.firstOperand
@@ -66,24 +67,29 @@ update msg model =
                     case model.currentOperand of
                         Second ->
                             Maybe.withDefault 0 (String.toFloat (String.fromFloat model.secondOperand ++ String.fromFloat num))
+
                         -- refactor using map2
                         First ->
                             model.secondOperand
             }
 
         Operator type_ ->
-            { model |
-                display = handleDisplayOperator type_
+            { model
+                | display = handleDisplayOperator type_
                 , operator = handleDisplayOperator type_
                 , currentOperand =
                     case model.currentOperand of
                         First ->
                             Second
+
                         Second ->
-                            First }
+                            First
+            }
 
         Equal ->
-            let result =  ((evaluate model.operator) model.firstOperand model.secondOperand)
+            let
+                result =
+                    evaluate model.operator model.firstOperand model.secondOperand
             in
             { model
                 | display = String.fromFloat result
@@ -93,6 +99,7 @@ update msg model =
                 , secondOperand = 0
                 , result = result
             }
+
         ClearAll ->
             initialModel
 
@@ -205,8 +212,11 @@ initialModel =
 view : Model -> Html Msg
 view model =
     div []
-        [ h1 [] [ text model.title ]
-        , div [ class "container" ]
+        [ h1
+            []
+            [ text model.title ]
+        , div
+            [ class "container" ]
             [ div [ class "result" ] [ p [] [ text model.display ] ]
             , div [ class "keyboard" ] (renderKeyboard model.keyboard)
             ]
